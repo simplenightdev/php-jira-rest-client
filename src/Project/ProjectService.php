@@ -6,9 +6,9 @@ class ProjectService extends \JiraRestApi\JiraClient
 {
     private $uri = '/project';
 
-    public function __construct($path = '.')
+    public function __construct(Array $config)
     {
-        parent::__construct($path);
+        parent::__construct($config);
     }
 
     /**
@@ -21,7 +21,7 @@ class ProjectService extends \JiraRestApi\JiraClient
         $ret = $this->exec($this->uri, null);
 
         $prjs = $this->json_mapper->mapArray(
-             json_decode($ret, true), new \ArrayObject(), '\JiraRestApi\Project\Project'
+             json_decode($ret, false), new \ArrayObject(), '\JiraRestApi\Project\Project'
         );
 
         return $prjs;
@@ -49,6 +49,3 @@ class ProjectService extends \JiraRestApi\JiraClient
         return $prj;
     }
 }
-
-?>
-
