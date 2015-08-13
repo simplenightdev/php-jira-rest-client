@@ -26,33 +26,36 @@ class JiraServiceProvider extends ServiceProvider
         $config = $this->app['config']->get('jira', []);
 
         $this->app->bindShared('jiraprojectservice', function () use ($config) {
-            $logger = new Logger('JiraClient');
-
-            $logger->pushHandler(new StreamHandler(
-                $config['JIRA_LOG_FILE'],
-                $this->convertLogLevel($config['JIRA_LOG_LEVEL'])
-            ));
-
             $service = new ProjectService($config);
-            $service->setLogger($logger);
+            $service->setLogger($this->createLogger($config));
             return $service;
         });
 
         $this->app->bindShared('jiraissueservice', function () use ($config) {
-
-            $logger = new Logger('JiraClient');
-
-            $logger->pushHandler(new StreamHandler(
-                $config['JIRA_LOG_FILE'],
-                $this->convertLogLevel($config['JIRA_LOG_LEVEL'])
-            ));
-
             $service = new IssueService($config);
-            $service->setLogger($logger);
+            $service->setLogger($this->createLogger($config));
             return $service;
         });
     }
 
+    /**
+     * Helper function to create file loger with config settings.
+     */
+    private function createLogger($config)
+    {
+        $logger = new Logger('JiraClient');
+
+        $logger->pushHandler(new StreamHandler(
+            $config['JIRA_LOG_FILE'],
+            $this->convertLogLevel($config['JIRA_LOG_LEVEL'])
+        ));
+
+        return $logger;
+    }
+
+    /**
+     * Helper function to convert the config text into Loggel level constant.
+     */
     private function convertLogLevel($log_level)
     {
         if ($log_level == 'DEBUG') {
