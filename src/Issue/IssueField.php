@@ -108,11 +108,11 @@ class IssueField implements \JsonSerializable
 
     public function addComment($comment)
     {
-        if (is_null($this->comments)) {
-            $this->comments = new \JiraRestApi\Issue\Comments();
+        if (is_null($this->comment)) {
+            $this->comment = new \JiraRestApi\Issue\Comments();
         }
 
-        array_push($this->versions, $v);
+        array_push($this->comment->comments, $comment);
 
         return $this;
     }
@@ -174,7 +174,7 @@ class IssueField implements \JsonSerializable
     public $components;
 
     /** @var Comments */
-    public $comments;
+    public $comment;
 
     /** @var object */
     public $votes;
