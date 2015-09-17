@@ -20,7 +20,7 @@ class JiraClient
     protected $http_response;
 
     /** @var JIRA REST API URI */
-    private $api_uri = '/rest/api/2';
+    protected $api_uri = '/rest/api/2';
 
     /** @var CURL instrance */
     protected $curl;
