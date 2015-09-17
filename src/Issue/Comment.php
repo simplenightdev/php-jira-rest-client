@@ -34,13 +34,13 @@ class Comment implements \JsonSerializable
     /* @var string */
     public $id;
 
-    /* @var Reporter */
+    /** @var Reporter */
     public $author;
 
     /* @var string */
     public $body;
 
-    /* @var Reporter */
+    /** @var Reporter */
     public $updateAuthor;
 
     /* @var DateTime */
