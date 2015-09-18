@@ -15,6 +15,8 @@ class HookService extends JiraClient
     {
         $ret = $this->exec('webhook');
 
+        $this->log->addInfo("Result=\n".$ret);
+
         $hooks = $this->json_mapper->mapArray(json_decode($ret), [], Hook::class);
 
         return $hooks;
@@ -22,7 +24,11 @@ class HookService extends JiraClient
 
     public function create(Hook $hook)
     {
-        $ret = $this->exec('webhook', json_encode($hook), 'POST');
+        $data = json_encode($hook);
+        $this->log->addInfo("Create Hook=\n".$data);
+        $ret = $this->exec('webhook', $data, 'POST');
+
+        $this->log->addInfo("Result=\n".$ret);
 
         $hook = $this->json_mapper->map(
             json_decode($ret), new Hook()
