@@ -4,6 +4,7 @@ use Illuminate\Support\ServiceProvider;
 use JiraRestApi\Project\ProjectService;
 use JiraRestApi\Issue\IssueService;
 use JiraRestApi\Hook\HookService;
+use JiraRestApi\Search\SearchService;
 
 use Monolog\Logger as Logger;
 use Monolog\Handler\StreamHandler;
@@ -40,6 +41,12 @@ class JiraServiceProvider extends ServiceProvider
 
         $this->app->bindShared('jirahookservice', function () use ($config) {
             $service = new HookService($config);
+            $service->setLogger($this->createLogger($config));
+            return $service;
+        });
+
+        $this->app->bindShared('jirasearchservice', function () use ($config) {
+            $service = new SearchService($config);
             $service->setLogger($this->createLogger($config));
             return $service;
         });
